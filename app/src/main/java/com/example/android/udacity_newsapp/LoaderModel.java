@@ -21,11 +21,13 @@ public class LoaderModel extends AsyncTaskLoader<List<Model>> {
     public LoaderModel(Context context, String url) {
         super(context);
         mUrl = url;
+
     }
 
     @Override
     protected void onStartLoading() {
         forceLoad();
+        Log.i("Loader", "Loader class onStartLoading");
     }
 
     /**
@@ -33,11 +35,10 @@ public class LoaderModel extends AsyncTaskLoader<List<Model>> {
      */
     @Override
     public List<Model> loadInBackground() {
+        Log.i("Loader", "loadInBackgroud");
         if (mUrl == null) {
             return null;
         }
-
-        Log.i("loadInBackground", "Loading in back ground");
 
         // Perform the network request, parse the response, and extract a list of earthquakes.
         List<Model> modelList = QueryUtils.fetchEarthquakeData(mUrl);

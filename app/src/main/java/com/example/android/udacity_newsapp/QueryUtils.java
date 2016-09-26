@@ -136,6 +136,8 @@ public class QueryUtils {
             return null;
         }
 
+        Log.i("Loader", "extracting json");
+
         // Create an empty ArrayList that we can start adding earthquakes to
         List<Model> models = new ArrayList<>();
 
@@ -185,6 +187,8 @@ public class QueryUtils {
         }
 
         // Return the list of earthquakes
+        Log.i("Loader", "Finishing extract json");
         return models;
+
     }
 }

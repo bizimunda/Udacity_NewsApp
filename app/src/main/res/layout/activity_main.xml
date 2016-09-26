@@ -5,22 +5,6 @@
     android:padding="10dp"
     android:layout_height="match_parent">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:orientation="horizontal"
-        android:layout_height="wrap_content">
-        <EditText
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:id="@+id/et_main_search"/>
-
-        <Button
-            android:layout_width="wrap_content"
-            android:id="@+id/btn_main_search"
-            android:text="@string/search"
-            android:layout_height="wrap_content" />
-        </LinearLayout>
 
 
 
