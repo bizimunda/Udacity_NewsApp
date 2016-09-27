@@ -10,8 +10,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -25,14 +23,13 @@ public class MainActivity extends ActionBarActivity implements LoaderManager.Loa
 
     private static final String LOG_TAG = MainActivity.class.getName();
 
-    private static final String USGS_REQUEST_URL ="http://content.guardianapis.com/search?q=java&api-key=14a7d8f2-5533-457e-a012-1d0b674582e8";
+    private static final String GUARDIAN_REQUEST_URL ="http://content.guardianapis.com/search?q=pokemon&api-key=test&show-tags=contributor";
+    //14a7d8f2-5533-457e-a012-1d0b674582e8
 
-    private static final int EARTHQUAKE_LOADER_ID = 1;
+    private static final int APPNEWS_LOADER_ID = 1;
     private ModelAdapter mAdapter;
     private ListView modelListView;
     private LoaderManager loaderManager;
-
-
 
 
     @Override
@@ -41,14 +38,10 @@ public class MainActivity extends ActionBarActivity implements LoaderManager.Loa
         setContentView(R.layout.activity_main);
         Log.i("Loader", "onCrete Activity method");
 
-
         modelListView = (ListView) findViewById(R.id.list);
-
         mAdapter = new ModelAdapter(MainActivity.this, new ArrayList<Model>());
         modelListView.setAdapter(mAdapter);
-
         Log.i("Loader", "Entering updateListView method");
-
 
         ConnectivityManager connMgr = (ConnectivityManager)
                 getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -63,8 +56,6 @@ public class MainActivity extends ActionBarActivity implements LoaderManager.Loa
         } else {
             Toast.makeText(MainActivity.this,"No data connection",Toast.LENGTH_SHORT).show();
         }
-
-
 
         modelListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -88,16 +79,13 @@ public class MainActivity extends ActionBarActivity implements LoaderManager.Loa
     private void updateListview(){
 
         loaderManager = getLoaderManager();
-        loaderManager.initLoader(EARTHQUAKE_LOADER_ID, null, MainActivity.this);
-
+        loaderManager.initLoader(APPNEWS_LOADER_ID, null, MainActivity.this);
     }
 
     @Override
     public Loader<List<Model>> onCreateLoader(int id, Bundle args) {
         Log.i("Loader", "onCreateLoader");
-
-
-        return new LoaderModel(this, USGS_REQUEST_URL);
+        return new LoaderModel(this, GUARDIAN_REQUEST_URL);
     }
 
     @Override
@@ -111,7 +99,6 @@ public class MainActivity extends ActionBarActivity implements LoaderManager.Loa
         if (data != null && !data.isEmpty()) {
             mAdapter.addAll(data);
         }
-
     }
 
     @Override
@@ -120,25 +107,4 @@ public class MainActivity extends ActionBarActivity implements LoaderManager.Loa
 
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
 }

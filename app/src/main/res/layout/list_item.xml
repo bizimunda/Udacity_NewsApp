@@ -9,12 +9,16 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/tv_listItme_webTitle"
+        android:textSize="20sp"
+        android:background="#F3E5F5"
         android:hint="webTitle"/>
 
     <TextView
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/tv_listItme_author"
+        android:background="#6A1B9A"
+        android:textColor="#fff9d1ff"
         android:hint="Authors"/>
 
 </LinearLayout>

@@ -23,7 +23,9 @@ import java.util.List;
  */
 public class QueryUtils {
 
-    /** Tag for the log messages */
+    /**
+     * Tag for the log messages
+     */
     private static final String LOG_TAG = QueryUtils.class.getSimpleName();
 
     /**
@@ -148,7 +150,7 @@ public class QueryUtils {
 
             // Create a JSONObject from the JSON response string
             JSONObject baseJsonResponse = new JSONObject(guardianJSON);
-            JSONObject responseObject=baseJsonResponse.getJSONObject("response");
+            JSONObject responseObject = baseJsonResponse.getJSONObject("response");
 
             // Extract the JSONArray associated with the key called "features",
             // which represents a list of features (or earthquakes).
@@ -160,29 +162,34 @@ public class QueryUtils {
             for (int i = 0; i < resultArray.length(); i++) {
 
                 String webTitle;
-                String authors;
+                String authors = null;
                 String webUrl;
+                JSONObject contributorObject = null;
+
 
                 JSONObject jsonObject = resultArray.getJSONObject(i);
                 webTitle = jsonObject.getString("webTitle");
                 webUrl = jsonObject.getString("webUrl");
+                JSONArray tagsArray = jsonObject.getJSONArray("tags");
 
-                if (jsonObject.has("authors")){
-                    authors=jsonObject.getString("authors");
+                if(tagsArray.isNull(0)){
+                    Model model= new Model(webTitle, "no contibutor", webUrl);
+                    models.add(model);
+                } else {
+                    contributorObject = tagsArray.getJSONObject(0);
+                    authors = contributorObject.getString("webTitle");
                     Model model = new Model(webTitle, authors, webUrl);
                     models.add(model);
+
                 }
-                else {
-                    Model model = new Model(webTitle, "no authors", webUrl);
-                    models.add(model);
-                }
+
             }
 
         } catch (JSONException e) {
             // If an error is thrown when executing any of the above statements in the "try" block,
             // catch the exception here, so the app doesn't crash. Print a log message
             // with the message from the exception.
-            Log.e("QueryUtils", "Problem parsing the earthquake JSON results",e );
+            Log.e("QueryUtils", "Problem parsing the earthquake JSON results", e);
             throw new RuntimeException(e);
         }
 
